@@ -1,0 +1,17 @@
+{
+  "name": "htmd",
+  "version": "0.1.0",
+  "description": "A tool to convert markdown docs into a single page HTML document.",
+  "main": "bin/htmd",
+  "scripts": {
+    "test": "echo No tests!"
+  },
+  "author": "Brad van der Laan",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "cli": "^1.0.1",
+    "marked": "^0.3.6",
+    "recursive-readdir": "^2.1.0"
+  }
+}
