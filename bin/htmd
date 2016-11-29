@@ -11,13 +11,17 @@ const marked = promise.promisifyAll(require('marked'));
 cli.enable('version');
 cli.setApp(path.join(__dirname, '../package.json'));
 cli.parse({
-    output: [ 'o', 'A file to save the generated HTML to.', 'file', 'output.html' ]
+    output: [ 'o', 'A file to save the generated HTML to.', 'file', 'output.html' ],
+    style: [ 's', '(Optional) A CSS style file to load into the generated HTML.', 'file' ],
+    title: ['t', 'The title to use in the header of the HTML.', 'string', 'Documentation' ]
 });
 
 cli.main( (args, options) => {
     if (args.length) {
-        const inputPath = args[0]
-        const output = options.output
+        const inputPath = args[0];
+        const output = options.output;
+        const styleFile = options.style ? options.style : path.join(__dirname, '../lib/default.style.css');
+        const htmlTitle = options.title;
 
         cli.info(`${cli.app} will look for Markdown files in ${path.resolve(inputPath)}`);
         recursive(inputPath, [ignoreNonMarkdownFiles], (err,files) => {
@@ -45,13 +49,17 @@ cli.main( (args, options) => {
                 });
                 return totalContent;
             })
-            .then((markup) => {
-                return `
+            .then( (markup) => {
+                return promise.join( promise.resolve(markup),
+                   fs.readFileAsync(styleFile, 'utf8'),
+                   (markup, css) => {
+                    return `
                         <!doctype html>
                         <html>
                             <head>
                                 <meta charset="utf-8"/>
-                                <title>Documentation</title>
+                                <title>${htmlTitle}</title>
+                                <style>${css}</style>
                             </head>
                             <body>
                             <div id="content">
@@ -59,8 +67,8 @@ cli.main( (args, options) => {
                             </div>
                             </body>
                         </html>`;
+                   });
             })
-            .tap(markup => console.log(markup))
             .then(markup => fs.writeFileAsync(output, markup))
             .then(() => cli.ok(`The Markup document has been generated here: ${output}`))
             .catch((e) => {
