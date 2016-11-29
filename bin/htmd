@@ -19,15 +19,15 @@ cli.main( (args, options) => {
         const inputPath = args[0]
         const output = options.output
 
-        cli.ok(`${cli.app} will look for Markdown files in ${path.resolve(inputPath)}...`);
+        cli.info(`${cli.app} will look for Markdown files in ${path.resolve(inputPath)}`);
         recursive(inputPath, [ignoreNonMarkdownFiles], (err,files) => {
             if (err) {
                 cli.error(`${err}`);
                 process.exit(2);
             }
 
-            cli.ok(`${cli.app} found ${files.length} Markdown files.`);
-            cli.ok(`${cli.app} will parse the Markdown and generate Markup...`);
+            cli.info(`${cli.app} found ${files.length} Markdown files.`);
+            cli.info(`${cli.app} will parse the Markdown and generate Markup.`);
 
             let readFilePromises = []
             files.forEach( (file) => {
