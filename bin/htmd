@@ -9,7 +9,7 @@ const cli = require('cli');
 const marked = promise.promisifyAll(require('marked'));
 
 cli.enable('version');
-cli.setApp('../package.json');
+cli.setApp(path.join(__dirname, '../package.json'));
 cli.parse({
     output: [ 'o', 'A file to save the generated HTML to.', 'file', 'output.html' ]
 });
