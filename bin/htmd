@@ -8,6 +8,16 @@ const recursive = require('recursive-readdir');
 const cli = require('cli');
 const marked = promise.promisifyAll(require('marked'));
 
+const renderer = new marked.Renderer();
+const baseRendererLinkFunc = renderer.link.bind(renderer);
+renderer.link = (href, title, text) => {
+    let url = href;
+    if (path.extname(href) == '.md') {
+        url = `#${path.basename(href, '.md').toLowerCase().replace(/[^\w]+/g, '-')}`;
+    }
+    return baseRendererLinkFunc(url, title, text);
+};
+
 cli.enable('version');
 cli.setApp(path.join(__dirname, '../package.json'));
 cli.parse({
@@ -37,18 +47,20 @@ cli.main( (args, options) => {
             files.forEach( (file) => {
                 readFilePromises.push(
                     fs.readFileAsync(file, "utf8")
-                    .then(markdown => marked(markdown))
+                    .then(markdown => marked(markdown, { renderer }))
+                    .then((markup) => {
+                        let id = path.basename(file,'.md').toLowerCase().replace(/[^\w]+/g, '-');
+                        return `<section id="${id}">${markup}</section>`
+                    })
                 );
             });
 
             new promise.all(readFilePromises)
-            .then((filesMarkupContents) => {
-                let totalContent = ''
-                filesMarkupContents.forEach( (contents) => {
-                    totalContent += `<section>${contents}</section>`;
-                });
-                return totalContent;
-            })
+            .then((filesMarkupContents) =>
+                filesMarkupContents.reduce((totalContent, contents) => {
+                    return totalContent += contents;
+                }, '')
+            )
             .then( (markup) => {
                 return promise.join( promise.resolve(markup),
                    fs.readFileAsync(styleFile, 'utf8'),
