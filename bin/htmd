@@ -77,6 +77,7 @@ cli.main( (args, options) => {
                             </head>
                             <body>
                             <div id="content">
+                            <h1>${htmlTitle}</h1>
                             ${markup}
                             </div>
                             </body>
