@@ -40,6 +40,8 @@ cli.main( (args, options) => {
                 process.exit(2);
             }
 
+            files.sort();
+
             cli.info(`${cli.app} found ${files.length} Markdown files.`);
             cli.info(`${cli.app} will parse the Markdown and generate Markup.`);
 
