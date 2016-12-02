@@ -1,3 +1,67 @@
-section:nth-child(even) {
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #444;
+    background-color: #fcfcfc;
+}
+#content {
+    padding: 10px 40px 10px 40px;
+}
+/*section:nth-of-type(even) {
     background-color: lightblue;
+}*/
+section {
+    padding: 5px 10px 5px 10px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border: 1px #eee solid;
+    background-color: #ffffff;
+}
+
+section:first-of-type {
+    margin-top: 0px;
+}
+
+section > h1,
+section > h2 {
+    padding-bottom: 0.3em;
+    border-bottom: 1px #eee solid;
+}
+
+section > h3 {
+    padding: 0.3em 5px 0.3em 5px;;
+    border-top: 1px #eee solid;
+    border-bottom: 1px #eee solid;
+    background-color: #FBFBFB;
+}
+
+section :not(pre) code {
+    background-color: rgba(0,0,0,0.04);
+    font-size: 85%;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    border-radius: 3px;
+}
+
+section :not(pre) > code::before,
+section :not(pre) > code::after {
+    letter-spacing: -0.2em;
+    content: "\00a0";
+}
+
+section a {
+    color: #4078c0;
+    text-decoration: none;
+}
+
+section pre {
+    font-family: monospace, monospace;
+    background-color: rgba(0,0,0,0.04);
+    padding: 16px;
+    border-radius: 3px;
+}
+
+section pre code {
+    background-color: transparent;
 }
