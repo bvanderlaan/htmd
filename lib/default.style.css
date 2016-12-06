@@ -7,10 +7,9 @@ body {
 }
 #content {
     padding: 10px 40px 10px 40px;
+    margin-left: 25%;
 }
-/*section:nth-of-type(even) {
-    background-color: lightblue;
-}*/
+
 section {
     padding: 5px 10px 5px 10px;
     margin-top: 25px;
@@ -50,6 +49,7 @@ section :not(pre) > code::after {
     content: "\00a0";
 }
 
+nav > ul > li > a,
 section a {
     color: #4078c0;
     text-decoration: none;
@@ -64,4 +64,18 @@ section pre {
 
 section pre code {
     background-color: transparent;
+}
+
+/* Menu */
+nav > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 0 0 10px;
+    width: 25%;
+    background-color: #f1f1f1;
+    height: 100%; /* Full height */
+    position: fixed; /* Make it stick, even on scroll */
+    top: 0;
+    left: 0;
+    overflow: auto; /* Enable scrolling if the sidenav has too much content */
 }

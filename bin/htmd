@@ -32,6 +32,7 @@ cli.main( (args, options) => {
         const output = options.output;
         const styleFile = options.style;
         const defaultStyle = path.join(__dirname, '../lib/default.style.css');
+        const defaultJS = path.join(__dirname, '../lib/toc.js');
         const htmlTitle = options.title;
 
         cli.info(`${cli.app} will look for Markdown files in ${path.resolve(inputPath)}`);
@@ -75,7 +76,8 @@ cli.main( (args, options) => {
                            return resolve('');
                        }
                    }),
-                   (markup, defaultCss, css) => {
+                   fs.readFileAsync(defaultJS, 'utf8'),
+                   (markup, defaultCss, css, js) => {
                     return `
                         <!doctype html>
                         <html>
@@ -85,11 +87,15 @@ cli.main( (args, options) => {
                                 <style>${defaultCss}</style>
                                 <style>${css}</style>
                             </head>
-                            <body>
+                            <body onload='init()'>
+                            <nav id="toc">
+                                <ul id="tocmenu"></ul>
+                            </nav>
                             <div id="content">
                             <h1>${htmlTitle}</h1>
                             ${markup}
                             </div>
+                            <script>${js}</script>
                             </body>
                         </html>`;
                    });
