@@ -73,7 +73,7 @@ nav > ul {
     padding: 10px 0 0 10px;
     width: 25%;
     background-color: #f1f1f1;
-    height: 100%; /* Full height */
+    height: 99%;
     position: fixed; /* Make it stick, even on scroll */
     top: 0;
     left: 0;
